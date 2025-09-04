@@ -69,7 +69,6 @@ $builder->addDefinitions([
     App\Domain\Repository\ProductRepositoryInterface::class => DI\autowire(App\Infrastructure\Persistence\Doctrine\ProductRepository::class),
     App\Domain\Repository\CategoryRepositoryInterface::class => DI\autowire(App\Infrastructure\Persistence\Doctrine\CategoryRepository::class),
 
-    // DaData chain: FindPartyStrategy -> DadataInnValidator -> CachedDadataClient
     App\Infrastructure\Dadata\Strategy\InnCheckStrategyInterface::class =>
         DI\autowire(App\Infrastructure\Dadata\Strategy\FindPartyStrategy::class),
 
