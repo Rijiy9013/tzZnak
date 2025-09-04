@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Application\Search;
 
 use App\Domain\Repository\ProductRepositoryInterface;
+use App\Infrastructure\Search\Contract\InternalProductSearch;
 
-final readonly class DbProductSearch
+final readonly class DbProductSearch implements InternalProductSearch
 {
     public function __construct(private ProductRepositoryInterface $repo)
     {

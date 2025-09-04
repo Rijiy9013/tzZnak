@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Application\Search;
 
+use App\Infrastructure\Search\Contract\ExternalProductSearch;
 use App\Infrastructure\Search\Contract\ProductIndexer;
-use App\Infrastructure\Search\Contract\ProductSearch;
 use Elastic\Elasticsearch\Client;
 use Throwable;
 
-final class ElasticProductSearch implements ProductSearch, ProductIndexer
+final class ElasticProductSearch implements ExternalProductSearch, ProductIndexer
 {
     private string $index = 'products';
 

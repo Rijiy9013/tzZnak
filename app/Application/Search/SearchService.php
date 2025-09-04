@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace App\Application\Search;
 
+use App\Infrastructure\Search\Contract\ExternalProductSearch;
 use App\Infrastructure\Search\Contract\HealthChecker;
-use App\Infrastructure\Search\Contract\ProductSearch;
+use App\Infrastructure\Search\Contract\InternalProductSearch;
 
 final readonly class SearchService
 {
     public function __construct(
-        private readonly HealthChecker $health,
-        private readonly ProductSearch $es,
-        private readonly ProductSearch $db
+        private HealthChecker         $health,
+        private ExternalProductSearch $es,
+        private InternalProductSearch $db
     )
     {
     }

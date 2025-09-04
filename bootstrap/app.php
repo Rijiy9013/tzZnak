@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 use App\Http\Middleware\BearerAuthMiddleware;
 use App\Http\Response\JsonResponseFactory;
-use App\Infrastructure\Search\Contract\HealthChecker;
-use App\Infrastructure\Search\Contract\ProductIndexer;
-use App\Infrastructure\Search\Contract\ProductSearch;
 use DI\ContainerBuilder;
 use Doctrine\DBAL\DriverManager;
 use Dotenv\Dotenv;
@@ -89,10 +86,17 @@ $builder->addDefinitions([
     App\Application\Query\ProductQueryService::class => DI\autowire(),
 
     // Поиск
-    \App\Application\Search\SearchService::class => DI\autowire(),
     \App\Application\Search\ElasticHealthChecker::class => DI\autowire(),
     \App\Application\Search\ElasticProductSearch::class => DI\autowire(),
     \App\Application\Search\DbProductSearch::class => DI\autowire(),
+
+    \App\Infrastructure\Search\Contract\ExternalProductSearch::class => DI\get(\App\Application\Search\ElasticProductSearch::class),
+    \App\Infrastructure\Search\Contract\InternalProductSearch::class => DI\get(\App\Application\Search\DbProductSearch::class),
+
+    \App\Infrastructure\Search\Contract\ProductIndexer::class => DI\get(\App\Application\Search\ElasticProductSearch::class),
+    \App\Infrastructure\Search\Contract\HealthChecker::class => DI\get(\App\Application\Search\ElasticHealthChecker::class),
+
+    \App\Application\Search\SearchService::class => DI\autowire(),
 
     // Контроллеры
     App\Http\Controller\ProductController::class => DI\autowire(),
@@ -100,10 +104,6 @@ $builder->addDefinitions([
 
     // Сервисы
     App\Application\Service\CategoryService::class => DI\autowire(),
-
-    HealthChecker::class => DI\get(\App\Application\Search\ElasticHealthChecker::class),
-    ProductSearch::class => DI\get(\App\Application\Search\DbProductSearch::class),
-    ProductIndexer::class => DI\get(\App\Application\Search\ElasticProductSearch::class),
 
     // Middleware
     BearerAuthMiddleware::class => DI\factory(function (\Psr\Container\ContainerInterface $c) {
