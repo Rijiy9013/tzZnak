@@ -1,0 +1,17 @@
+/vendor/
+/composer.phar
+
+.phpunit.result.cache
+/.phpunit.cache/
+/coverage/
+
+/var/log/
+/var/cache/
+/var/tmp/
+/var/sessions/
+/var/storage/
+/var/*.log
+
+/.env
+
+/.idea/
